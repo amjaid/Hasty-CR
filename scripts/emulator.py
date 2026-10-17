@@ -11,10 +11,12 @@ what MuMu presents. It has to come from the instance itself:
     MuMuManager.exe info -v all      lists instances by index and name
     MuMuManager.exe adb -v <index>   gives that instance's adb port
 
-Instance 3 is "Android Device-1-2" and answers on port 16480. Instance 0 is
-"Android Device" - the Clash of Clans one - on 16384. The legacy 7555 and 5555
-endpoints that this project used to hardcode both resolve to Clash of Clans
-instances, which is exactly the bug this module exists to prevent.
+On this machine MuMu instance 0 is "Android Device" and answers on port 16384;
+it has Clash Royale installed. Ports are per-machine, so identify the instance
+with `MuMuManager.exe adb -v <index>` and override the defaults with
+HASTYCR_SERIAL / HASTYCR_INSTANCE. The legacy 7555 and 5555 endpoints that this
+project used to hardcode resolve to other devices, which is exactly the bug
+this module exists to prevent.
 """
 
 from __future__ import annotations
@@ -25,9 +27,9 @@ from pathlib import Path
 
 DEFAULT_ADB = Path(r"C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe")
 
-# MuMu instance 3. Override for a different machine with the env vars.
-DEFAULT_SERIAL = os.environ.get("HASTYCR_SERIAL", "127.0.0.1:16480")
-DEFAULT_INSTANCE = os.environ.get("HASTYCR_INSTANCE", "Android Device-1-2")
+# MuMu instance 0. Override for a different machine with the env vars.
+DEFAULT_SERIAL = os.environ.get("HASTYCR_SERIAL", "127.0.0.1:16384")
+DEFAULT_INSTANCE = os.environ.get("HASTYCR_INSTANCE", "Android Device")
 
 REQUIRED_PACKAGE = "com.supercell.clashroyale"
 FORBIDDEN_PACKAGE = "com.supercell.clashofclans"

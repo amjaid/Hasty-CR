@@ -34,6 +34,10 @@ uv pip install --python $clashAiPython pytest
 
 uv venv (Join-Path $venvRoot "buildabot") --python 3.12
 uv pip install --python $buildABotPython -e (Join-Path $vendorRoot "ClashRoyaleBuildABot[cpu]")
+# run.ps1 uses this interpreter for the live bot, so it needs HastyCR's live
+# extras (torch, ultralytics, opencv, ...) as well as the upstream package.
+# Installing only ClashRoyaleBuildABot left the bot dying on `import torch`.
+uv pip install --python $buildABotPython -e "${projectRoot}[live,dev]"
 
 uv venv (Join-Path $venvRoot "pyclashbot") --python 3.12
 uv pip install --python $pyClashBotPython -e (Join-Path $vendorRoot "py-clash-bot")

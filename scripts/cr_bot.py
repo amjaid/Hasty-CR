@@ -110,7 +110,7 @@ def patch_tower_numbers(state, full, hp_filter=None, now=0.0):
 def main() -> int:
     parser = argparse.ArgumentParser(description="HastyCR live runner")
     parser.add_argument("--adb", required=True, type=Path)
-    parser.add_argument("--serial", default="127.0.0.1:16480")
+    parser.add_argument("--serial", default="127.0.0.1:16384")
     parser.add_argument("--hours", type=float, default=8.0)
     parser.add_argument("--max-matches", type=int)
     parser.add_argument("--dry-run", action="store_true")

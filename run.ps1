@@ -73,7 +73,13 @@ $ErrorActionPreference = 'Continue'
 $root   = $PSScriptRoot
 $python = Join-Path $root '.venvs\buildabot\Scripts\python.exe'
 $adb    = 'C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe'
-$serial = '127.0.0.1:16480'
+$serial = '127.0.0.1:16384'
+
+if (-not (Test-Path $python)) {
+    Write-Host "no interpreter at $python" -ForegroundColor Red
+    Write-Host 'run .\scripts\bootstrap.ps1 first, or activate the buildabot venv.' -ForegroundColor Yellow
+    exit 1
+}
 
 if ($Stop) {
     Get-CimInstance Win32_Process -Filter "Name='python.exe'" |

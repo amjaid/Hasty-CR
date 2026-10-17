@@ -54,7 +54,7 @@ SURFACE_CLASSES = ("nemuwin", "subWin", "BlueStacksApp", "AndroidSurface")
 # Which MuMu instance this project drives. Pinned because more than one
 # emulator runs on this machine and the other one is a Clash of Clans bot that
 # must never be touched. Override with HASTYCR_INSTANCE, or --instance.
-DEFAULT_INSTANCE = os.environ.get("HASTYCR_INSTANCE", "Android Device-1-2")
+DEFAULT_INSTANCE = os.environ.get("HASTYCR_INSTANCE", "Android Device")
 
 _ENUM_PROC = ctypes.WINFUNCTYPE(ctypes.c_bool, wintypes.HWND, wintypes.LPARAM)
 

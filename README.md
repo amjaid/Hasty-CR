@@ -83,6 +83,8 @@ python -m pytest tests -q        # confirm the engine is behaving
 
 > [!NOTE]
 > `[dev]` is enough for everything except driving a real device. Live play additionally needs `[live]`, an Android emulator and a GPU — see [Playing the real game](#4-playing-the-real-game).
+>
+> For the complete setup, training, evaluation and live-play command reference, see [`docs/TRAINING_AND_RUNBOOK.md`](docs/TRAINING_AND_RUNBOOK.md).
 
 <br>
 

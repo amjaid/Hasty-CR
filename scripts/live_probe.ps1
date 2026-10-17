@@ -7,7 +7,7 @@ $frame = Join-Path $projectRoot "tmp\live\clash-royale.png"
 
 & $python (Join-Path $PSScriptRoot "live_probe.py") `
     --adb $adb `
-    --serial "127.0.0.1:16480" `
+    --serial "127.0.0.1:16384" `
     --save-frame $frame
 
 exit $LASTEXITCODE

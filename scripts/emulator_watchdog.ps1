@@ -4,14 +4,14 @@
 # bot, but nothing restarted the emulator underneath all of it. Over a long
 # unattended run that is the gap that ends the run.
 #
-# THE IMPORTANT PART: this machine runs more than one MuMu instance. Instance 0
-# is a separate device belonging to an unrelated Clash of Clans setup, and
-# restarting it would kill that run. So this is pinned to instance 3 and refuses
-# to act unless the instance still has the name it was identified by.
+# THE IMPORTANT PART: this machine can run more than one MuMu instance, and
+# restarting the wrong one would kill an unrelated bot. So this is pinned to the
+# Clash Royale instance and refuses to act unless the instance still has the
+# name it was identified by.
 #
 # The identification, recorded so it can be re-checked rather than trusted:
-#   - the bot talks to 127.0.0.1:16480
-#   - MuMuManager reports instance 3 ("Android Device-1-2") on port 16480
+#   - the bot talks to 127.0.0.1:16384
+#   - MuMuManager reports instance 0 ("Android Device") on port 16384
 #   - both ports return the same focused window handle, running
 #     com.supercell.clashroyale, so they are one device
 #
@@ -24,9 +24,9 @@ $ErrorActionPreference = 'SilentlyContinue'
 $root       = 'C:\Users\aksha\Downloads\HastyCR'
 $adb        = 'C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe'
 $manager    = 'C:\Program Files\Netease\MuMuPlayer\nx_main\MuMuManager.exe'
-$serial     = '127.0.0.1:16480'
-$vmIndex    = 3
-$vmName     = 'Android Device-1-2'
+$serial     = '127.0.0.1:16384'
+$vmIndex    = 0
+$vmName     = 'Android Device'
 $logFile    = Join-Path $root 'tmp\live\emulator_watchdog.log'
 $strikeFile = Join-Path $root 'tmp\live\emulator_strike.txt'
 
