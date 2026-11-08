@@ -86,7 +86,7 @@ Requirements:
   cards were built, and prints the four self-check numbers above.
 
 Test it by running:
-  C:\Users\aksha\Downloads\HastyCR\.venvs\buildabot\Scripts\python.exe sim\gamedata.py
+  C:\Users\aksha\Downloads\HastyCR\.venv\buildabot\Scripts\python.exe sim\gamedata.py
 
 It must run clean and print sensible numbers. Iterate until it does.
 

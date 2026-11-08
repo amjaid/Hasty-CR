@@ -30,7 +30,7 @@ $ErrorActionPreference = 'Continue'
 $root = $PSScriptRoot
 # python, not pythonw: the startup summary and the REC lines go to the console,
 # and pythonw would detach stdout and swallow them.
-$python = Join-Path $root '.venvs\buildabot\Scripts\python.exe'
+$python = Join-Path $root '.venv\buildabot\Scripts\python.exe'
 
 $studioArgs = @('-u', '-m', 'scripts.studio', '--layout', $Layout,
                 '--fps', $Fps, '--scale', $Scale, '--sim-speed', $SimSpeed)

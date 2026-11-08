@@ -12,7 +12,7 @@ param(
 )
 
 $root = $PSScriptRoot
-$python = Join-Path $root '.venvs\buildabot\Scripts\python.exe'
+$python = Join-Path $root '.venv\buildabot\Scripts\python.exe'
 $botArgs = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
              (Join-Path $root 'run.ps1'), '-MatchCount', $MatchCount,
              '-Brain', $Brain, '-Checkpoint', $Checkpoint, '-FullRes')

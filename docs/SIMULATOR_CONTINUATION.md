@@ -136,7 +136,7 @@ is simulated.
 ## Current verified baseline
 
 - Focused simulator fidelity tests: 144 passing; full suite: 1308 passing plus 2 pinned xfails with
-  `.venvs\\buildabot\\Scripts\\python.exe`; the full pytest suite and
+  `.venv\buildabot\Scripts\python.exe`; the full pytest suite and
   `python -m compileall -q sim` also completed green in that venv. The
   `clashai` venv is missing Pillow, so it cannot instantiate the live-brain
   opponent and is not the validation runtime.

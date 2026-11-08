@@ -1,5 +1,5 @@
 .venvs/
-tmp/
+
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -12,15 +12,14 @@ vendor/*/
 _references/
 
 
-tmp/
-scripts/brain/lessons.md
+
 
 # Pretrained checkpoints ultralytics downloads on demand; not project source.
 *.pt
 
 # Pulled APKs and the extracted native libraries: 120MB+ of Supercell binaries,
 # reproducible from the device with scripts/extract_game_data.py.
-tmp/apk/
+
 
 # Scratch that has been committed by accident before: pytest dumps, one-off
 # debugging snippets, and the PDFs/notes that land at the repo root. Keeping
@@ -71,7 +70,7 @@ AGENTS.md
 data/vod/videos/
 
 # Scraper browser profile: holds a live RoyaleAPI login cookie.
-tmp/royale_profile/
+
 
 # API tokens: never committed.
 .secrets/

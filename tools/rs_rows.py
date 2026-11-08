@@ -1,7 +1,7 @@
 """Training rows from IL_Replay re-driven through RoyaleSim, in the same column
 format as sim/replay_rows.py, so sim/train_tokens.py trains on either.
 
-    .venvs/royalegym/Scripts/python.exe tools/rs_rows.py --others 20000 --workers 7
+    .venv/royalegym/Scripts/python.exe tools/rs_rows.py --others 20000 --workers 7
 
 Why a second generator: on the same 2,000 matches RoyaleSim's endings agree
 with the recording far more often than ours (winner 62.6% vs 49.5%, exact

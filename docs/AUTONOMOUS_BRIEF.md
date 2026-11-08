@@ -75,7 +75,7 @@ Two artefacts come out of it, both under `brain/`:
    stale. Do not adjust a placement, cost, or interaction from memory.
 2. **Prefer `config.json` to `policy.py`.** At most three changes per review.
 3. **Run the tests** after any change:
-   `.venvs\buildabot\Scripts\python.exe -m pytest tests\test_brain.py -q`
+   `.venv\buildabot\Scripts\python.exe -m pytest tests\test_brain.py -q`
    A failing tree must be reverted, not left for the next agent.
 4. **Never edit** `supervisor.py`, `review.py`, `captain.py`, or `watchdog.ps1` unless
    you are specifically fixing the loop itself. They are the safety net.

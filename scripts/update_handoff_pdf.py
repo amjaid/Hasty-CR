@@ -87,7 +87,7 @@ def build(output: Path = OUTPUT) -> None:
               paragraph("The viewer now supports <b>--random-decks</b>. It builds two random public-card decks and uses a generic legal-placement policy. "
                         "That policy now presses an engaged champion/hero ability when it is legal, so Golden Knight's paid dash is exercised instead of being silently ignored.", body),
               paragraph("Viewer command", h2),
-              paragraph(".\\.venvs\\buildabot\\Scripts\\python.exe -m sim.watch --random-decks --seed 8 --speed 2", small),
+              paragraph(".\\.venv\\buildabot\\Scripts\\python.exe -m sim.watch --random-decks --seed 8 --speed 2", small),
               paragraph("Seed 8 includes Golden Knight in the bottom deck. The dash occurs after deployment, engagement and sufficient ability elixir.", small)]
 
     story += [paragraph("3. Evidence and verification added", h1),

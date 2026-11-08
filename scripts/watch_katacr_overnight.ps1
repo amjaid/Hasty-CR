@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Continue"
 
 $projectRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$pythonExe = Join-Path $projectRoot ".venvs\buildabot\Scripts\python.exe"
+$pythonExe = Join-Path $projectRoot ".venv\buildabot\Scripts\python.exe"
 $runner = Join-Path $projectRoot "scripts\mumu_katacr.py"
 $adbExe = "C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe"
 $checkpoint = Join-Path $projectRoot "vendor\KataCR\logs\Policy\StARformer_3L_v0.8_golem_ai_cnn_blocks__nbc128__ep30__step50__0__20240512_181646\ckpt"

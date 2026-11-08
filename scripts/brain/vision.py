@@ -27,6 +27,9 @@ from upstream. This replaces unit perception only.
 
 from __future__ import annotations
 
+import os
+os.environ["YOLO_VERBOSE"] = "False"
+
 import re
 import time
 from dataclasses import dataclass
@@ -107,6 +110,17 @@ def _extra_units() -> dict:
 # The frame the tap calibration in `arena` was measured against.
 CALIBRATED_W, CALIBRATED_H = 1080, 1920
 
+# Model training image size (KataCR part2 arena crop)
+MODEL_TRAIN_W, MODEL_TRAIN_H = 568, 896
+
+# Arena crop region in calibrated 1080x1920 frame
+_ARENA_X0 = arena._X0
+_ARENA_Y0 = arena._Y0
+_ARENA_X1 = arena._X0 + arena.GRID_W * arena._XS
+_ARENA_Y1 = arena._Y0 + arena.GRID_H * arena._YS
+_ARENA_W = _ARENA_X1 - _ARENA_X0
+_ARENA_H = _ARENA_Y1 - _ARENA_Y0
+
 
 def _key(name: str) -> str:
     """Normalise a class name for matching across naming conventions.
@@ -117,6 +131,19 @@ def _key(name: str) -> str:
     """
     name = re.sub(r"-(evolution|evolution-symbol|symbol|skill|projectile)$", "", name)
     return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+def _parse_side_and_name(raw: str) -> Tuple[Optional[int], str]:
+    """Extract side from KataCR class prefix and return (side, stripped_name).
+
+    KataCR format: "A-hog-rider" (ally=0) or "C-mega-knight" (enemy=1).
+    Returns (None, raw) if no prefix found.
+    """
+    if raw.startswith("A-"):
+        return 0, raw[2:]
+    if raw.startswith("C-"):
+        return 1, raw[2:]
+    return None, raw
 
 
 @dataclass(frozen=True)
@@ -260,9 +287,26 @@ class YoloVision:
         started = time.perf_counter()
         pixels = np.asarray(frame.convert("RGB"))
         height, width = pixels.shape[:2]
+
+        # Crop arena region and resize to model's training size (568x896)
+        ax0 = max(0, int(_ARENA_X0 * width / CALIBRATED_W))
+        ay0 = max(0, int(_ARENA_Y0 * height / CALIBRATED_H))
+        ax1 = min(width, int(_ARENA_X1 * width / CALIBRATED_W))
+        ay1 = min(height, int(_ARENA_Y1 * height / CALIBRATED_H))
+        arena_crop = pixels[ay0:ay1, ax0:ax1]
+        if arena_crop.size == 0:
+            self.detect_ms = (time.perf_counter() - started) * 1000.0
+            self.last_counts = (0, 0)
+            return [], []
+        arena_resized = np.asarray(Image.fromarray(arena_crop).resize((MODEL_TRAIN_W, MODEL_TRAIN_H), Image.BILINEAR))
+
+        # Scale factors to map model coords back to full frame
+        scale_x = (ax1 - ax0) / MODEL_TRAIN_W
+        scale_y = (ay1 - ay0) / MODEL_TRAIN_H
+
         try:
             result = self._model.predict(
-                pixels[:, :, ::-1], imgsz=self.imgsz, conf=self.confidence,
+                arena_resized[:, :, ::-1], imgsz=self.imgsz, conf=self.confidence,
                 device=self.device, verbose=False, max_det=self.max_units)[0]
         except Exception as exc:
             self.error = f"predict failed: {type(exc).__name__}: {exc}"
@@ -278,52 +322,65 @@ class YoloVision:
         confidences = boxes.conf.cpu().numpy()
         classes = boxes.cls.cpu().numpy().astype(int)
 
-        keep, crops = [], []
+        keep = []  # (unit_name, tile_x, tile_y, confidence, side, side_confidence)
+        crops = []
         size = self.sides.crop
+        needs_side_classifier = []
+
         for (x1, y1, x2, y2), confidence, cls in zip(xyxy, confidences, classes):
             raw = self._names.get(int(cls), "")
             if raw in NOT_A_UNIT:
                 continue
-            key = _key(raw)
+
+            # Extract side from KataCR prefix (A- = ally, C- = enemy)
+            side_from_prefix, stripped = _parse_side_and_name(raw)
+            key = _key(stripped)
             unit = self._units.get(CLASS_ALIASES.get(key, key))
             if unit is None:
-                # Silence here cost a match. A Goblin Giant was detected at
-                # 0.92 confidence standing next to our own Cannon and thrown
-                # away, because `goblin-giant` had no entry in units.json -
-                # and 78 of the model's 201 classes were in that state. The
-                # policy saw an empty lane and held. Anything the detector can
-                # name and this cannot resolve is a card we are blind to, so
-                # it is counted and reported once rather than dropped.
                 if raw not in NOT_A_UNIT_EITHER:
                     self.unresolved[raw] = self.unresolved.get(raw, 0) + 1
                 continue
-            # A sprite stands at the bottom-centre of its box; the box centre
-            # sits somewhere around its chest and reads a tile too far forward.
-            tile_x, tile_y = self._to_tile((x1 + x2) / 2.0, y2, width, height)
-            keep.append((unit.name, tile_x, tile_y, float(confidence)))
 
-            pad_w, pad_h = (x2 - x1) * 0.125, (y2 - y1) * 0.125
-            cx1 = max(0, int(x1 - pad_w))
-            cy1 = max(0, int(y1 - pad_h))
-            cx2 = min(width, int(x2 + pad_w))
-            cy2 = min(height, int(y2 + pad_h))
-            patch = pixels[cy1:cy2, cx1:cx2]
-            if patch.size == 0:
-                patch = np.zeros((size, size, 3), np.uint8)
-            crops.append(np.asarray(
-                Image.fromarray(patch).resize((size, size), Image.BILINEAR)))
+            # Map box coords from model space -> full frame space
+            px = (x1 + x2) / 2.0
+            py = y2
+            px_full = ax0 + px * scale_x
+            py_full = ay0 + py * scale_y
 
-        verdicts = self.sides.classify(crops)
+            tile_x, tile_y = self._to_tile(px_full, py_full, width, height)
+
+            if side_from_prefix is not None:
+                # Side determined from model prefix - use high confidence
+                keep.append((unit.name, tile_x, tile_y, float(confidence), side_from_prefix, 1.0))
+            else:
+                # Need side classifier for this detection
+                keep.append((unit.name, tile_x, tile_y, float(confidence), None, None))
+                pad_w, pad_h = (x2 - x1) * 0.125 * scale_x, (y2 - y1) * 0.125 * scale_y
+                cx1 = max(0, int(ax0 + x1 * scale_x - pad_w))
+                cy1 = max(0, int(ay0 + y1 * scale_y - pad_h))
+                cx2 = min(width, int(ax0 + x2 * scale_x + pad_w))
+                cy2 = min(height, int(ay0 + y2 * scale_y + pad_h))
+                patch = pixels[cy1:cy2, cx1:cx2]
+                if patch.size == 0:
+                    patch = np.zeros((size, size, 3), np.uint8)
+                crops.append(np.asarray(
+                    Image.fromarray(patch).resize((size, size), Image.BILINEAR)))
+                needs_side_classifier.append(len(keep) - 1)
+
+        # Run side classifier only for detections without prefix
+        if crops:
+            verdicts = self.sides.classify(crops)
+            for idx, (side, side_confidence) in zip(needs_side_classifier, verdicts):
+                name, tx, ty, conf, _, _ = keep[idx]
+                if side_confidence < self.side_floor:
+                    side = 1 if ty > (31 - arena.RIVER_Y) else 0
+                    side_confidence = 0.85  # position fallback confidence
+                keep[idx] = (name, tx, ty, conf, int(side), side_confidence)
+
+        # Split into ours/theirs
         ours: List[Seen] = []
         theirs: List[Seen] = []
-        for (name, tile_x, tile_y, confidence), (side, side_confidence) in zip(keep, verdicts):
-            # An unsure side is worse than a missing unit: putting one of ours
-            # in the threat list invents a push, and putting one of theirs in
-            # the ally list hides one. Below the floor, fall back to the half
-            # the unit is standing on, which is right most of the time and
-            # wrong only in the contested middle.
-            if side_confidence < self.side_floor:
-                side = 1 if tile_y > (31 - arena.RIVER_Y) else 0
+        for name, tile_x, tile_y, confidence, side, side_confidence in keep:
             seen = Seen(name, tile_x, tile_y, confidence, int(side), side_confidence)
             (theirs if side == 1 else ours).append(seen)
 

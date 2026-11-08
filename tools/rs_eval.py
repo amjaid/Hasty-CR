@@ -2,7 +2,7 @@
 of held-out recorded matches while the other side replays what the real
 opponent did, tick for tick.
 
-    .venvs/royalegym/Scripts/python.exe tools/rs_eval.py --ckpt runs/tokens/rs_bc/best.pt \
+    .venv/royalegym/Scripts/python.exe tools/rs_eval.py --ckpt runs/tokens/rs_bc/best.pt \
         --matches 300 [--search]
 
 Two numbers per run, on the same matches:

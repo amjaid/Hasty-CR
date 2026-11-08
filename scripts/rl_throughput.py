@@ -32,7 +32,7 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PYTHON = ROOT / ".venvs" / "buildabot" / "Scripts" / "python.exe"
+PYTHON = ROOT / ".venv" / "buildabot" / "Scripts" / "python.exe"
 LINE = re.compile(r"^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) step\s+([\d,]+)")
 
 

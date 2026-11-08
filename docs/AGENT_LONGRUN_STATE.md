@@ -24,15 +24,15 @@ Task #6 complete: perception/manual annotation plumbing is implemented and valid
 ## Exact commands currently useful
 
 ```powershell
-& ".venvs\buildabot\Scripts\python.exe" -m pytest -q
-& ".venvs\buildabot\Scripts\python.exe" -m pytest -q tests/test_calibration_core.py tests/test_calibration_scenarios.py tests/test_calibration_synthetic.py tests/test_calibration_diagnostics.py tests/test_replay_calibration.py tests/test_emulator_capture.py
-& ".venvs\buildabot\Scripts\python.exe" -m tools.calibration.catalog validate
-& ".venvs\buildabot\Scripts\python.exe" -m tools.research.csv_history validate
-& ".venvs\buildabot\Scripts\python.exe" -m tools.research.apk_deep_analysis validate
-& ".venvs\buildabot\Scripts\python.exe" -m sim.readiness
-& ".venvs\buildabot\Scripts\python.exe" -m sim.runner --matches 20 --seed 1
-& ".venvs\buildabot\Scripts\python.exe" scripts/fidelity.py simulate calibration/scenarios/sprint5_001_arena.json --output tmp/sprint2-smoke.json
-& ".venvs\buildabot\Scripts\python.exe" scripts/fidelity.py validate tmp/sprint2-smoke.json --kind trace
+& ".venv\buildabot\Scripts\python.exe" -m pytest -q
+& ".venv\buildabot\Scripts\python.exe" -m pytest -q tests/test_calibration_core.py tests/test_calibration_scenarios.py tests/test_calibration_synthetic.py tests/test_calibration_diagnostics.py tests/test_replay_calibration.py tests/test_emulator_capture.py
+& ".venv\buildabot\Scripts\python.exe" -m tools.calibration.catalog validate
+& ".venv\buildabot\Scripts\python.exe" -m tools.research.csv_history validate
+& ".venv\buildabot\Scripts\python.exe" -m tools.research.apk_deep_analysis validate
+& ".venv\buildabot\Scripts\python.exe" -m sim.readiness
+& ".venv\buildabot\Scripts\python.exe" -m sim.runner --matches 20 --seed 1
+& ".venv\buildabot\Scripts\python.exe" scripts/fidelity.py simulate calibration/scenarios/sprint5_001_arena.json --output tmp/sprint2-smoke.json
+& ".venv\buildabot\Scripts\python.exe" scripts/fidelity.py validate tmp/sprint2-smoke.json --kind trace
 git status --short
 git diff --check
 ```
@@ -69,7 +69,7 @@ git diff --check
 
 - Known available from Sprint 1: Git, Java, Python, PowerShell, `certutil`.
 - No output was returned for `jadx`, `apktool`, `aapt`, Ghidra headless, rizin/radare2, `readelf`, `objdump`, `nm`, or `strings` in the Sprint 2 kickoff probe; treat them as unavailable until independently rechecked.
-- Python runtime: `.venvs\buildabot\Scripts\python.exe`.
+- Python runtime: `.venv\buildabot\Scripts\python.exe`.
 
 ## Unresolved blockers
 

@@ -2,7 +2,7 @@
 param()
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
-$python = Join-Path $root '.venvs\buildabot\Scripts\python.exe'
+$python = Join-Path $root '.venv\buildabot\Scripts\python.exe'
 $scrcpy = Join-Path $root 'tools\scrcpy\scrcpy-win64-v4.1\scrcpy.exe'
 if (-not (Test-Path -LiteralPath $scrcpy)) {
     throw 'scrcpy v4.1 is missing from tools/scrcpy.'

@@ -5,7 +5,7 @@ $ErrorActionPreference = "Continue"
 # Deliberately model-free: nothing here needs an AI to be awake.
 
 $root       = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$py         = Join-Path $root ".venvs\buildabot\Scripts\python.exe"
+$py         = Join-Path $root ".venv\buildabot\Scripts\python.exe"
 $runner     = Join-Path $root "scripts\mumu_katacr.py"
 $capture    = Join-Path $root "scripts\capture_daemon.py"
 $analyzer   = Join-Path $root "scripts\analyze_run.py"

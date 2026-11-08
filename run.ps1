@@ -71,7 +71,7 @@ param(
 
 $ErrorActionPreference = 'Continue'
 $root   = $PSScriptRoot
-$python = Join-Path $root '.venvs\buildabot\Scripts\python.exe'
+$python = Join-Path $root '.venv\buildabot\Scripts\python.exe'
 $adb    = 'C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe'
 $serial = '127.0.0.1:16384'
 

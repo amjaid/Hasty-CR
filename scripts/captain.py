@@ -51,7 +51,7 @@ Your shift, in order:
 4. Make **at most three** targeted improvements. Prefer `scripts/brain/config.json`
    over `scripts/brain/policy.py`. Verify any game mechanic with web search before
    relying on it - your Clash Royale knowledge is out of date.
-5. Run `.venvs\\buildabot\\Scripts\\python.exe -m pytest tests\\test_brain.py -q`.
+5. Run `.venv\\buildabot\\Scripts\\python.exe -m pytest tests\\test_brain.py -q`.
    If it fails, fix or revert. Never leave the tree failing.
 6. Append a dated entry to `docs/RUN_JOURNAL.md` saying what you observed, what you
    changed, and what the next agent should look at.

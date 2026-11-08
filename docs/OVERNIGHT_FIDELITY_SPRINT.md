@@ -19,7 +19,7 @@ Primary objective: make disagreement between HastyCR and observed Clash Royale m
 - Git commit: `1dc9e6dbbc97bf3f2c04ff8b9045dfa66ee7577` (`pre-review snapshot block 245`, 2026-08-23T10:56:07+05:30).
 - Working tree at start was already dirty. Existing modified files: `scripts/brain/config.json`, `scripts/brain/learned.json`, `scripts/brain/matchups.json`, `sim/engine.py`, `tests/test_sim_engine.py`. Existing untracked capture/replay calibration files were also present. These changes are preserved and will not be reverted.
 - Baseline game-data aggregate SHA-256: `0e6d28a9a3dbf6be88b1fdff7bbf28f8bcfcf32c09faf00be685238a7f7693f7`, computed from sorted per-file SHA-256 records under `data/` excluding `data/validation/`; manifest stored locally at `tmp/baseline-data-hashes.txt`.
-- Full test suite: `1424 passed, 1 skipped, 2 xfailed in 397.50s (0:06:37)` using `.venvs\\buildabot\\Scripts\\python.exe -m pytest -q`.
+- Full test suite: `1424 passed, 1 skipped, 2 xfailed in 397.50s (0:06:37)` using `.venv\buildabot\Scripts\python.exe -m pytest -q`.
 - Simulator benchmark: 20 BrainPolicy matches in 18.4s, 1.1 matches/s, 4,742 ticks/s; 5W/15L/0D and crowns 6-17. This small sample is a throughput baseline, not a strategy conclusion.
 - Deterministic replay baseline digest: seeds 1 and 5 produced SHA-256 `8f5406326338cef63f1952ad0a62ba55c3d251438021446e99502ecff20d5281` over the existing test fingerprint representation (2,940 repr bytes). The planned normalized trace digest will replace this ad-hoc baseline.
 - Readiness baseline: `RL NOT READY`; blockers are eight implemented source graphs with named measurement approximations plus missing accepted `building_contact`, `map_anchors`, and `troop_contact` live-probe categories.

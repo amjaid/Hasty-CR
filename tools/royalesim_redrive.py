@@ -3,7 +3,7 @@ fidelity comparison with our own engine (tools/redrive_bench.py).
 
 Runs in the isolated RoyaleGym environment:
 
-    .venvs/royalegym/Scripts/python.exe tools/royalesim_redrive.py --pair b2000
+    .venv/royalegym/Scripts/python.exe tools/royalesim_redrive.py --pair b2000
 
 It reads the match tags from reports/redrive/<pair>.jsonl, so both engines
 play exactly the same matches, and writes reports/redrive/<pair>_royalesim.jsonl

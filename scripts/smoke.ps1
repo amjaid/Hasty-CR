@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$hastyPython = Join-Path $projectRoot ".venvs\clashai\Scripts\python.exe"
-$pyClashBotPython = Join-Path $projectRoot ".venvs\pyclashbot\Scripts\python.exe"
+$hastyPython = Join-Path $projectRoot ".venv\clashai\Scripts\python.exe"
+$pyClashBotPython = Join-Path $projectRoot ".venv\pyclashbot\Scripts\python.exe"
 
 Push-Location $projectRoot
 try {

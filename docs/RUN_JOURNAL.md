@@ -3122,7 +3122,7 @@ I kept its other two, which are sound and break nothing: `cycle_min_gap_seconds`
 `policy.py:784`, which makes the Ice Spirit stall defer to Skeletons more often and
 pushes in the same direction as the leak in item 2 below.
 
-`.venvs\buildabot\Scripts\python.exe -m pytest tests\test_brain.py -q` -> **84 passed**.
+`.venv\buildabot\Scripts\python.exe -m pytest tests\test_brain.py -q` -> **84 passed**.
 
 ### For the next agent
 
@@ -3225,7 +3225,7 @@ ground order, so it can only outnumber Skeletons if the air arm is the source.
 
 ### Tests
 
-`.venvs\buildabot\Scripts\python.exe -m pytest tests\test_brain.py -q` -> **88 passed**
+`.venv\buildabot\Scripts\python.exe -m pytest tests\test_brain.py -q` -> **88 passed**
 (86 before; I added two).
 
 Change 1 broke two tests, and both were **asserting the bug**: they set up a Balloon with

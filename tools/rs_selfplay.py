@@ -9,12 +9,12 @@ decisions of the battles it won.
 
 Two halves, because the engine and the GPU live in different environments:
 
-  collect  (.venvs/royalegym, CPU, engine)  - N battles -> one .npz of decisions
-  train    (.venvs/buildabot, CUDA)         - one PPO update on that .npz
+  collect  (.venv/royalegym, CPU, engine)  - N battles -> one .npz of decisions
+  train    (.venv/buildabot, CUDA)         - one PPO update on that .npz
 
 and a driver that alternates them and evaluates every few iterations:
 
-  .venvs\\royalegym\\Scripts\\python.exe tools\\rs_selfplay.py loop --iters 40
+  .venv\\royalegym\\Scripts\\python.exe tools\\rs_selfplay.py loop --iters 40
 
 The policy being trained is exactly the one the live bot runs: the gate's
 wait / play probabilities with the evaluator's wait correction and its
@@ -350,8 +350,8 @@ def loop(args):
     run = RUNS / args.name
     run.mkdir(parents=True, exist_ok=True)
     (run / "args.json").write_text(json.dumps(vars(args), default=str))
-    rg = ROOT / ".venvs" / "royalegym" / "Scripts" / "python.exe"
-    bb = ROOT / ".venvs" / "buildabot" / "Scripts" / "python.exe"
+    rg = ROOT / ".venv" / "royalegym" / "Scripts" / "python.exe"
+    bb = ROOT / ".venv" / "buildabot" / "Scripts" / "python.exe"
     me = str(Path(__file__).resolve())
     # args.json next to each checkpoint so RSAgent reads the right wait_keep
     init_args = Path(args.ref or args.init).with_name("args.json")

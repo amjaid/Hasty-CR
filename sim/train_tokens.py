@@ -1,7 +1,7 @@
 """Train `sim.model_tokens.TokenPolicy` on the shards from tools/build_rows.py.
 
-    .venvs/buildabot/Scripts/python.exe -m sim.train_tokens --name bc --beta 0
-    .venvs/buildabot/Scripts/python.exe -m sim.train_tokens --name awr --beta 0.1
+    .venv/buildabot/Scripts/python.exe -m sim.train_tokens --name bc --beta 0
+    .venv/buildabot/Scripts/python.exe -m sim.train_tokens --name awr --beta 0.1
     ... --finetune-hog --init runs/tokens/awr/best.pt --name awr_hog
 
 Only numpy and torch are needed, so it runs in any environment with CUDA

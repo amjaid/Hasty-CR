@@ -90,7 +90,7 @@ until ally tower HP detection is fixed.</p>
 &amp; "C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe" connect 127.0.0.1:7555
 
 # single supervised run (5 matches, then exits)
-.\.venvs\buildabot\Scripts\python.exe .\scripts\mumu_katacr.py `
+.\.venv\buildabot\Scripts\python.exe .\scripts\mumu_katacr.py `
   --adb "C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe" `
   --serial 127.0.0.1:7555 --epoch 3 --hours 1 --auto-queue --shims --max-matches 5
 
@@ -105,10 +105,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\overnight_supervis
 </div>
 
 <h2>Analysis tools</h2>
-<pre>.\.venvs\buildabot\Scripts\python.exe scripts\results.py tmp\live\blocks\katacr_results   # true W/L
-.\.venvs\buildabot\Scripts\python.exe scripts\conversion.py --per-block                   # push conversion
-.\.venvs\buildabot\Scripts\python.exe scripts\trend.py                                    # per-block behaviour
-.\.venvs\buildabot\Scripts\python.exe scripts\analyze_run.py tmp\live\blocks\block_NNN.log</pre>
+<pre>.\.venv\buildabot\Scripts\python.exe scripts\results.py tmp\live\blocks\katacr_results   # true W/L
+.\.venv\buildabot\Scripts\python.exe scripts\conversion.py --per-block                   # push conversion
+.\.venv\buildabot\Scripts\python.exe scripts\trend.py                                    # per-block behaviour
+.\.venv\buildabot\Scripts\python.exe scripts\analyze_run.py tmp\live\blocks\block_NNN.log</pre>
 <p class="meta">Result screenshots live in <code>tmp/live/blocks/katacr_results/</code> (the runner derives the folder from
 <code>--log</code>'s parent). <code>tmp/live/katacr_results/</code> holds a previous session.</p>
 

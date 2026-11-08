@@ -70,8 +70,8 @@ The clean CLI demo was generated with seed `37` and duration `60` ticks:
 Example:
 
 ```powershell
-& ".venvs\buildabot\Scripts\python.exe" scripts\fidelity.py record-command-replay --output tmp\sprint2_5_demo.json --seed 37 --duration-ticks 60
-& ".venvs\buildabot\Scripts\python.exe" scripts\fidelity.py verify-command-replay tmp\sprint2_5_demo.json
+& ".venv\buildabot\Scripts\python.exe" scripts\fidelity.py record-command-replay --output tmp\sprint2_5_demo.json --seed 37 --duration-ticks 60
+& ".venv\buildabot\Scripts\python.exe" scripts\fidelity.py verify-command-replay tmp\sprint2_5_demo.json
 ```
 
 ## Test Evidence

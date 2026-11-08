@@ -6,14 +6,14 @@ Full reference: [`docs/TRAINING_AND_RUNBOOK.md`](docs/TRAINING_AND_RUNBOOK.md)
 
 ```powershell
 cd C:\Users\jaid2\OneDrive\Documents\GitHub\Hasty-CR
-.\.venvs\buildabot\Scripts\Activate.ps1
+.\.venv\buildabot\Scripts\Activate.ps1
 ```
 
 If activation is blocked:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venvs\buildabot\Scripts\Activate.ps1
+.\.venv\buildabot\Scripts\Activate.ps1
 ```
 
 Your prompt should show `(buildabot)`. Check it:
@@ -22,7 +22,7 @@ Your prompt should show `(buildabot)`. Check it:
 python --version
 ```
 
-Without activation, use `.\.venvs\buildabot\Scripts\python.exe` instead of `python`.
+Without activation, use `.\.venv\buildabot\Scripts\python.exe` instead of `python`.
 
 ## 2. Before training
 
@@ -111,6 +111,6 @@ python scripts\evaluate_pilot.py `
 
 - **Activation blocked** → run the `Set-ExecutionPolicy -Scope Process` command above.
 - **`no init checkpoint`** → pass a real path, e.g. `--init tmp\rl\clone.pt`.
-- **`ModuleNotFoundError`** → the venv is not active; activate it or use the full `.venvs\buildabot\Scripts\python.exe` path.
+- **`ModuleNotFoundError`** → the venv is not active; activate it or use the full `.venv\buildabot\Scripts\python.exe` path.
 - **Training is slow** → CPU torch is installed; lower `--envs` or install a CUDA torch build.
 - **Do not reuse `--name`** unless you intend to write into the same `checkpoints\<name>\` folder.

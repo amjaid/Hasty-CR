@@ -44,7 +44,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PYTHON = ROOT / ".venvs" / "buildabot" / "Scripts" / "python.exe"
+PYTHON = ROOT / ".venv" / "buildabot" / "Scripts" / "python.exe"
 OUT = ROOT / "tmp" / "rl"
 
 # Where the promoted checkpoint and the write-up land. This was a single

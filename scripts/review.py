@@ -31,7 +31,7 @@ from typing import List, Optional
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "tmp" / "live" / "agents_state.json"
 PROMPT = ROOT / "scripts" / "review_prompt.md"
-PYTHON = ROOT / ".venvs" / "buildabot" / "Scripts" / "python.exe"
+PYTHON = ROOT / ".venv" / "buildabot" / "Scripts" / "python.exe"
 
 BENCH_SECONDS = 5 * 3600
 QUOTA_MARKERS = (

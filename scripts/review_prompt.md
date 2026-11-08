@@ -44,7 +44,7 @@ It has just finished a block of matches. Your job is to make it play better.
 6. Make **small, targeted changes** — at most three this block. A large rewrite that
    regresses is worse than one good tweak.
 7. After editing you MUST run the **whole** suite:
-   `.venvs\buildabot\Scripts\python.exe -m pytest tests -q`
+   `.venv\buildabot\Scripts\python.exe -m pytest tests -q`
    If they fail, fix your change or revert it. Never leave the tree failing.
    Running only `tests\test_brain.py` is not enough and has already caused a
    breakage: a review widened the hand-tracker voting window and broke

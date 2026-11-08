@@ -15,7 +15,7 @@ collision, pathing or projectile constants.
 Run the cataloguer after adding recordings:
 
 ```powershell
-.\.venvs\buildabot\Scripts\python.exe scripts\ingest_live_recordings.py `
+.\.venv\buildabot\Scripts\python.exe scripts\ingest_live_recordings.py `
   "C:\Users\aksha\Documents\MuMuSharedFolder\VideoRecords\recordings"
 ```
 
@@ -27,14 +27,14 @@ it to contextual status until it is reviewed again.
 Before reviewing or accepting a frame range, recheck the source files:
 
 ```powershell
-.\.venvs\buildabot\Scripts\python.exe scripts\verify_live_probe_assets.py
+.\.venv\buildabot\Scripts\python.exe scripts\verify_live_probe_assets.py
 ```
 
 To inspect a candidate observation by source-frame number, extract it without
 altering the source video:
 
 ```powershell
-.\.venvs\buildabot\Scripts\python.exe scripts\extract_probe_frames.py `
+.\.venv\buildabot\Scripts\python.exe scripts\extract_probe_frames.py `
   "C:\Users\aksha\Documents\MuMuSharedFolder\VideoRecords\recordings\Clash Royale(3).mp4" `
   900 990
 ```
@@ -50,7 +50,7 @@ claim mechanics. Each indexed clip carries its source SHA-256, so discard and
 re-index the queue if the recording changes:
 
 ```powershell
-.\.venvs\buildabot\Scripts\python.exe scripts\index_recording_motion.py `
+.\.venv\buildabot\Scripts\python.exe scripts\index_recording_motion.py `
   "C:\Users\aksha\Documents\MuMuSharedFolder\VideoRecords\recordings"
 ```
 

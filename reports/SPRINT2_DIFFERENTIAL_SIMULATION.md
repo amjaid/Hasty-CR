@@ -52,11 +52,11 @@ With the current environment, no cross-engine pair is executable, so no disagree
 ## Validation commands
 
 ```powershell
-& ".venvs\buildabot\Scripts\python.exe" -m tools.calibration.differential fixture --output-dir calibration\differential_scenarios
-& ".venvs\buildabot\Scripts\python.exe" -m tools.calibration.differential suite --scenario-dir calibration\differential_scenarios --output calibration\differential_report.json --adapters hastycr crforge clash-royale-suite
-& ".venvs\buildabot\Scripts\python.exe" -m compileall -q tools\calibration src\hastycr scripts\fidelity.py
+& ".venv\buildabot\Scripts\python.exe" -m tools.calibration.differential fixture --output-dir calibration\differential_scenarios
+& ".venv\buildabot\Scripts\python.exe" -m tools.calibration.differential suite --scenario-dir calibration\differential_scenarios --output calibration\differential_report.json --adapters hastycr crforge clash-royale-suite
+& ".venv\buildabot\Scripts\python.exe" -m compileall -q tools\calibration src\hastycr scripts\fidelity.py
 git diff --check
-& ".venvs\buildabot\Scripts\python.exe" -m sim.readiness
+& ".venv\buildabot\Scripts\python.exe" -m sim.readiness
 ```
 
 The readiness command is expected to return nonzero with `RL NOT READY`; this is an intentional evidence boundary, not a framework failure.

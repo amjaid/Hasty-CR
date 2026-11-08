@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$python = Join-Path $projectRoot ".venvs\buildabot\Scripts\python.exe"
+$python = Join-Path $projectRoot ".venv\buildabot\Scripts\python.exe"
 $adb = "C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe"
 $frame = Join-Path $projectRoot "tmp\live\clash-royale.png"
 

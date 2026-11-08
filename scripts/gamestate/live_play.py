@@ -1,6 +1,6 @@
 """Live play: reader frame -> model -> taps on instance 3, battle after battle.
 
-    .venvs\\royalegym\\Scripts\\python.exe scripts\\gamestate\\live_play.py ^
+    .venv\\royalegym\\Scripts\\python.exe scripts\\gamestate\\live_play.py ^
         --ckpt runs\\tokens\\rs_big_hog\\best.pt
 
 Between battles it navigates with the old bot's screen logic

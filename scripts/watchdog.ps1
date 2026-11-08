@@ -7,8 +7,8 @@
 # interesting way is not a watchdog.
 
 $ErrorActionPreference = 'SilentlyContinue'
-$root = 'C:\Users\aksha\Downloads\HastyCR'
-$python = Join-Path $root '.venvs\buildabot\Scripts\python.exe'
+$root = $PSScriptRoot
+$python = Join-Path $root '.venv\buildabot\Scripts\python.exe'
 $state = Join-Path $root 'tmp\live\supervisor_state.json'
 $logFile = Join-Path $root 'tmp\live\watchdog.log'
 $staleMinutes = 20

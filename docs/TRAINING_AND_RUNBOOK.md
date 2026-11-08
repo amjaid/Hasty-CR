@@ -21,7 +21,7 @@ rationale behind the simulator and policy, read `README.md` and
 .\run.ps1 -Brain rl -Checkpoint "tmp\rl\ppo_best.pt" -Matches 5
 
 # Evaluate before trusting a checkpoint
-.venvs\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
+.venv\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
     --ckpt tmp\rl\ppo_best.pt --episodes 60
 
 # Stop everything the launcher started
@@ -40,7 +40,7 @@ gitignored, so a fresh clone will not contain your trained weights.
 `run.ps1` hardcodes:
 
 ```text
-.venvs\buildabot\Scripts\python.exe
+.venv\buildabot\Scripts\python.exe
 ```
 
 That virtualenv is deliberately **not** the system Python. It contains:
@@ -64,14 +64,14 @@ git clone https://github.com/Pbatch/ClashRoyaleBuildABot.git vendor\ClashRoyaleB
 git -C vendor\ClashRoyaleBuildABot checkout f89ecbf309e698cb9fccdfb64a6ff2a930e6541e
 
 # Create the live venv
-uv venv .venvs\buildabot --python 3.12
+uv venv .venv\buildabot --python 3.12
 
 # Install upstream BuildABot (CPU ONNX runtime)
-uv pip install --python .venvs\buildabot\Scripts\python.exe `
+uv pip install --python .venv\buildabot\Scripts\python.exe `
     -e "vendor/ClashRoyaleBuildABot[cpu]"
 
 # Install HastyCR plus the live/test dependencies
-uv pip install --python .venvs\buildabot\Scripts\python.exe -e ".[live,dev]"
+uv pip install --python .venv\buildabot\Scripts\python.exe -e ".[live,dev]"
 ```
 
 `scripts\bootstrap.ps1` does the same setup plus the other vendored research
@@ -82,7 +82,7 @@ that matters.
 ### 1.3 Verify the environment
 
 ```powershell
-.venvs\buildabot\Scripts\python.exe -c `
+.venv\buildabot\Scripts\python.exe -c `
   "import numpy, torch, cv2, ultralytics, clashroyalebuildabot; print(numpy.__version__, torch.__version__, torch.cuda.is_available())"
 ```
 
@@ -95,20 +95,20 @@ Expected on this machine:
 The CPU torch build is fine for live RL inference: the policy network is tiny.
 It is also fine for small simulator runs, but PPO training is much faster with a
 CUDA build. To use the RTX 4050, reinstall torch from the CUDA wheel selected on
-<https://pytorch.org/get-started/locally/> into `.venvs\buildabot`, then confirm
+<https://pytorch.org/get-started/locally/> into `.venv\buildabot`, then confirm
 `torch.cuda.is_available()` returns `True`. `sim.train_ppo` and `sim.clone`
 select CUDA automatically when it is available.
 
 ### 1.4 Run the tests
 
 ```powershell
-.venvs\buildabot\Scripts\python.exe -m pytest tests -q
+.venv\buildabot\Scripts\python.exe -m pytest tests -q
 ```
 
 For just the RL/vision path:
 
 ```powershell
-.venvs\buildabot\Scripts\python.exe -m pytest `
+.venv\buildabot\Scripts\python.exe -m pytest `
     tests\test_rl_policy.py tests\test_emulator_capture.py tests\test_brain.py -q
 ```
 
@@ -180,11 +180,11 @@ attack. Start from a behaviour clone of the hand-written brain.
 
 ```powershell
 # Step 1: behaviour clone (writes tmp\rl\clone_v2.pt)
-.venvs\buildabot\Scripts\python.exe -m sim.clone `
+.venv\buildabot\Scripts\python.exe -m sim.clone `
     --episodes 4000 --epochs 8 --name clone_v2
 
 # Step 2: PPO from the clone (writes tmp\rl\ppo_v2_best.pt / _last.pt)
-.venvs\buildabot\Scripts\python.exe -m sim.train_ppo `
+.venv\buildabot\Scripts\python.exe -m sim.train_ppo `
     --envs 8 --steps 2000000 `
     --init tmp\rl\clone_v2.pt `
     --opponent meta --brain-share 0.5 `
@@ -243,7 +243,7 @@ real play belongs under `checkpoints\<name>\` with a manifest of what it scored.
 collapses, rolls back to the best checkpoint, and restarts with tamer settings.
 
 ```powershell
-.venvs\buildabot\Scripts\python.exe scripts\rl_supervisor.py `
+.venv\buildabot\Scripts\python.exe scripts\rl_supervisor.py `
     --name night12 --hours 6 --envs 8 `
     --init tmp\rl\clone_v2.pt
 ```
@@ -259,7 +259,7 @@ There is also a token/transformer imitation trainer (`sim\train_tokens.py`) used
 for the replay-data experiments:
 
 ```powershell
-.venvs\buildabot\Scripts\python.exe -m sim.train_tokens `
+.venv\buildabot\Scripts\python.exe -m sim.train_tokens `
     --name rs_huge --epochs 3 --wait-keep 0.25 `
     --data data\rs_rows --d 384 --layers 8 --heads 8
 ```
@@ -276,23 +276,23 @@ seeds and more than one opponent.
 
 ```powershell
 # 60 games against the default opponents: brain, meta, simple
-.venvs\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
+.venv\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
     --ckpt tmp\rl\ppo_v2_best.pt --episodes 60
 
 # Larger final check on the fresh held-out seed
-.venvs\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
+.venv\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
     --ckpt tmp\rl\ppo_v2_best.pt --episodes 200 --seed 9000
 
 # Evaluate every tmp\rl\*_best.pt file
-.venvs\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
+.venv\buildabot\Scripts\python.exe scripts\evaluate_pilot.py `
     --ckpt tmp\rl\ppo_v2_best.pt --all
 
 # Compare two checkpoints on the same deck and seeds
-.venvs\buildabot\Scripts\python.exe scripts\head_to_head.py `
+.venv\buildabot\Scripts\python.exe scripts\head_to_head.py `
     --a tmp\rl\ppo_v2_best.pt --b tmp\rl\ppo_best.pt --games 100
 
 # Look for degenerate one-card / one-tile strategies
-.venvs\buildabot\Scripts\python.exe scripts\exploit_probe.py `
+.venv\buildabot\Scripts\python.exe scripts\exploit_probe.py `
     --ckpt tmp\rl\ppo_v2_best.pt --episodes 60
 ```
 
@@ -426,10 +426,10 @@ exit. If the process is killed hard, restore it manually:
 
 | symptom | cause / fix |
 |---|---|
-| `no interpreter at ...\.venvs\buildabot\Scripts\python.exe` | The venv is missing. Run the setup in section 1.2 or `scripts\bootstrap.ps1`. |
+| `no interpreter at ...\.venv\buildabot\Scripts\python.exe` | The venv is missing. Run the setup in section 1.2 or `scripts\bootstrap.ps1`. |
 | `ModuleNotFoundError: clashroyalebuildabot` | `vendor\ClashRoyaleBuildABot` is missing or empty. Clone it at commit `f89ecbf` and reinstall into the venv. |
 | `ModuleNotFoundError: torch` / `ultralytics` / `cv2` | The venv has BuildABot but not HastyCR's live extras. Run `uv pip install ... -e ".[live,dev]"`. |
-| NumPy ABI / `_ARRAY_API not found` / binary incompatibility | Mixing system Python with the venv, or two NumPy versions. Use `.venvs\buildabot\Scripts\python.exe` for everything and reinstall both packages in that venv. |
+| NumPy ABI / `_ARRAY_API not found` / binary incompatibility | Mixing system Python with the venv, or two NumPy versions. Use `.venv\buildabot\Scripts\python.exe` for everything and reinstall both packages in that venv. |
 | `emulator not found at 127.0.0.1:16384` | MuMu is not running, or the port changed. Run `MuMuManager.exe info -v all` and `adb connect`. |
 | `refusing to run: ... is the CLASH OF CLANS instance` | Wrong serial. Do **not** bypass the guard; find the Clash Royale instance's port. |
 | `Clash Royale is not in the foreground` | Open Clash Royale in the emulator before launching. |
@@ -458,7 +458,7 @@ exit. If the process is killed hard, restore it manually:
 
 ## 8. Current verified state (2026-10-17)
 
-- Venv: `.venvs\buildabot`, Python 3.12.10.
+- Venv: `.venv\buildabot`, Python 3.12.10.
 - BuildABot: pinned `f89ecbf309e698cb9fccdfb64a6ff2a930e6541e`.
 - NumPy `2.4.6`, torch `2.14.1+cpu`, Ultralytics `8.4.178`,
   ONNX Runtime `1.26.0`.

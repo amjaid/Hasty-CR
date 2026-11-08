@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $vendorRoot = Join-Path $projectRoot "vendor"
-$venvRoot = Join-Path $projectRoot ".venvs"
+$venvRoot = Join-Path $projectRoot ".venv"
 
 New-Item -ItemType Directory -Force $vendorRoot | Out-Null
 New-Item -ItemType Directory -Force $venvRoot | Out-Null
